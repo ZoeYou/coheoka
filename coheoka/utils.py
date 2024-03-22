@@ -4,7 +4,8 @@ Preprocessing utilities
 '''
 
 from random import shuffle, sample
-import cPickle as pickle
+#import cPickle as pickle
+import pickle
 import re
 
 from nltk import sent_tokenize
@@ -22,11 +23,15 @@ def shuffle_sents(text, times):
 
 def shuffle_words(sent):
     words = filter(lambda x: len(x) > 0, re.split(r'\.|\?|\!|\s', sent))
-    shuffle(words)
+    shuffle(list(words))
     return ' '.join(words) + '.'
 
 
 def replace_sents(text, times):
+    """
+    Replace the first and last sentence of the text with shuffled sentences
+    
+    """
     sents = sent_tokenize(text)
     shuffle(sents)
     sents[0] = shuffle_words(sents[0])

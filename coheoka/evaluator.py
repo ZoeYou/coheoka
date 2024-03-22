@@ -5,12 +5,15 @@ Evaluator based on transition matrix
 from __future__ import print_function, division
 
 from nltk import sent_tokenize
-from sklearn import cross_validation, svm
+from sklearn import svm
+from sklearn.model_selection import train_test_split
 from scipy.stats import kendalltau as tau
 import numpy as np
 
 from entity_transition import TransitionMatrix
 from ranking import transform_pairwise
+import warnings
+warnings.filterwarnings('ignore')
 
 
 class Evaluator(object):
@@ -25,6 +28,7 @@ class Evaluator(object):
                                                             shuffle_label_func)
         self._matrix = np.concatenate((self._origin_matrix,
                                        self._shuffled_matrix))
+
         self._X, self._y, self._clf, self._fitted_clf = None, None, None, None
 
     @property
@@ -80,7 +84,7 @@ class Evaluator(object):
     def _shuffle_text(self, text, times, label_func):
         from random import shuffle
         origin_sents = sent_tokenize(text)
-        assert len(origin_sents) > 1
+        assert len(origin_sents) >= 1
         sents = sent_tokenize(text)
         res = []
         for i in range(times):
@@ -92,7 +96,7 @@ class Evaluator(object):
     def make_data_and_clf(self, clf=svm.LinearSVC):
         if self._X is None:
             self._X = TransitionMatrix([c for c in self.matrix[:, 0]
-                                        ]).tran_matrix.as_matrix()
+                                        ]).tran_matrix.values
             self._y = self.matrix[:, 1].astype(int)
             self._clf = clf
         else:
@@ -107,7 +111,7 @@ class Evaluator(object):
 
     def evaluate_tau(self, test_size=0.3):
         X, y = transform_pairwise(self.X, self.y)
-        X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+        X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
             test_size=test_size)
@@ -117,7 +121,7 @@ class Evaluator(object):
 
     def evaluate_accuracy(self, test_size=0.3):
         X, y = transform_pairwise(self.X, self.y)
-        X_train, X_test, y_train, y_test = cross_validation.train_test_split(
+        X_train, X_test, y_train, y_test = train_test_split(
             X,
             y,
             test_size=test_size)
@@ -131,7 +135,7 @@ class Evaluator(object):
         return self
 
     def evaluate_coherence(self, text):
-        x = TransitionMatrix([text]).tran_matrix.as_matrix()
+        x = TransitionMatrix([text]).tran_matrix.values
         return self.predict(self.fitted_clf, x)
 
 

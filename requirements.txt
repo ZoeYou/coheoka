@@ -1,6 +1,65 @@
-nltk>=3.1
-numpy>=1.10.0
-pandas>=0.18.0
-requests>=2.9.1
-scikit-learn==0.16.1
-scipy>=0.17.0
+annotated-types==0.6.0
+blis==0.2.4
+boto3==1.34.65
+botocore==1.34.65
+Bottleneck @ file:///croot/bottleneck_1707864210935/work
+catalogue==2.0.10
+certifi==2024.2.2
+charset-normalizer==3.3.2
+click==8.1.7
+cloudpathlib==0.16.0
+confection==0.1.4
+contourpy==1.1.1
+cycler==0.12.1
+cymem==2.0.8
+en-core-web-sm @ https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.1.0/en_core_web_sm-2.1.0.tar.gz#sha256=4db16860a8cdef56d436038ace6abeb9181a5176bdc8c16c755a20dced51e5f1
+fonttools==4.50.0
+idna==3.6
+importlib_resources==6.3.2
+Jinja2==3.1.3
+jmespath==1.0.1
+joblib==1.3.2
+jsonschema==2.6.0
+kiwisolver==1.4.5
+langcodes==3.3.0
+MarkupSafe==2.1.5
+matplotlib==3.7.5
+mkl-fft @ file:///croot/mkl_fft_1695058164594/work
+mkl-random @ file:///croot/mkl_random_1695059800811/work
+mkl-service==2.4.0
+murmurhash==1.0.10
+neuralcoref==4.0
+nltk==3.8.1
+numexpr @ file:///croot/numexpr_1683221822650/work
+numpy @ file:///work/mkl/numpy_and_numpy_base_1682953417311/work
+packaging==24.0
+pandas @ file:///croot/pandas_1692289311655/work
+pillow==10.2.0
+plac==0.9.6
+preshed==2.0.1
+pydantic==2.6.4
+pydantic_core==2.16.3
+pyparsing==3.1.2
+python-dateutil @ file:///tmp/build/80754af9/python-dateutil_1626374649649/work
+pytz @ file:///croot/pytz_1695131579487/work
+regex==2023.12.25
+requests==2.31.0
+s3transfer==0.10.1
+scikit-learn==1.3.2
+scipy==1.10.1
+six @ file:///tmp/build/80754af9/six_1644875935023/work
+smart-open==6.4.0
+spacy==2.1.0
+spacy-legacy==3.0.12
+spacy-loggers==1.0.5
+srsly==1.0.7
+thinc==7.0.8
+threadpoolctl==3.3.0
+tqdm==4.66.2
+typer==0.9.0
+typing_extensions==4.10.0
+tzdata @ file:///croot/python-tzdata_1690578112552/work
+urllib3==1.26.18
+wasabi==0.10.1
+weasel==0.3.4
+zipp==3.18.1

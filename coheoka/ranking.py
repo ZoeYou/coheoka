@@ -14,7 +14,8 @@ of RankSVM using stochastic gradient descent methods.
 import itertools
 import numpy as np
 
-from sklearn import svm, linear_model, cross_validation
+from sklearn import svm, linear_model
+from sklearn.model_selection import train_test_split, KFold
 from scipy.stats import kendalltau as tau
 
 
@@ -128,8 +129,19 @@ if __name__ == '__main__':
     y = np.arctan(y)  # add non-linearities
     y += .1 * noise  # add noise
     Y = np.c_[y, np.mod(np.arange(n_samples), 5)]  # add query fake id
-    cv = cross_validation.KFold(n_samples, 5)
-    train, test = iter(cv).next()
+
+    # cv = KFold(n_samples, 5)
+
+    # Set up KFold
+    n_splits = 2
+    cv = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+  
+    # train, test = iter(cv).next()# Creating an iterator over the splits
+    split_iterator = iter(cv.split(X))
+    # Getting the first train/test split
+    train_index, test_index = next(split_iterator)
+    X_train, X_test = X[train_index], X[test_index]
+    y_train, y_test = y[train_index], y[test_index]
 
     # make a simple plot out of it
     import pylab as pl
@@ -140,15 +152,15 @@ if __name__ == '__main__':
     pl.show()
 
     # print the performance of ranking
-    rank_svm = RankSVM().fit(X[train], Y[train])
-    print('Performance of ranking ', rank_svm.score(X[test], Y[test]))
-    X_test_trans, y_test_trans = transform_pairwise(X[test], y[test])
+    rank_svm = RankSVM().fit(X_train, y_train)
+    print('Performance of ranking ', rank_svm.score(X_test, y_test))
+    X_test_trans, y_test_trans = transform_pairwise(X_test, y_test)
     print('Kendall\'s tau ', tau(
         rank_svm.decision_function(X_test_trans), y_test_trans)[0])
 
     # and that of linear regression
     ridge = linear_model.RidgeCV(fit_intercept=True)
-    ridge.fit(X[train], y[train])
+    ridge.fit(X_train, y_train)
 
     score = np.mean(np.sign(np.dot(X_test_trans, ridge.coef_)) == y_test_trans)
     print('Performance of linear regression ', score)

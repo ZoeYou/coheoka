@@ -19,7 +19,7 @@ class EntityTransition(object):
     '''
     Local entity transition
     >>> eg = EntityGrid('I like apple juice. He also likes it.')
-    >>> et = EntityTransition(eg.resolve_coreference())
+    >>> et = EntityTransition(eg)
     >>> et.transition_table.shape[1] <= 4
     True
     '''
@@ -141,10 +141,10 @@ class TransitionMatrix(object):
         new_corpus = []
         for i, doc in enumerate(self.corpus):
             try:
-                if coref:
-                    eg = EntityGrid(doc).resolve_coreference()
-                else:
-                    eg = EntityGrid(doc)
+                # if coref:
+                #     eg = EntityGrid(doc).resolve_coreference()
+                # else:
+                eg = EntityGrid(doc)
                 tran_list.append(EntityTransition(eg, n))
                 new_corpus.append(doc)
             except (UnicodeError, TypeError) as e:

@@ -12,11 +12,12 @@ import numpy as np
 
 from entity_grid import EntityGrid
 
+from tqdm import tqdm
+
 
 class CoherenceProbability(object):
     def __init__(self, text, coref=True):
-        self._eg = EntityGrid(text).resolve_coreference(
-        ) if coref else EntityGrid(text)
+        self._eg = EntityGrid(text)#.resolve_coreference() if coref else EntityGrid(text)
         self._coher_prob = self._coherence_prob()
 
     @property
@@ -87,7 +88,7 @@ class ProbabilityVector(object):
 
     def make_probs(self):
         res = []
-        for text in self.corpus:
+        for text in tqdm(self.corpus):
             try:
                 p = CoherenceProbability(text).coherence_prob
                 res.append(p)
